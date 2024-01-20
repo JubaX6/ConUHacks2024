@@ -3,71 +3,68 @@ import pyautogui
 import pyaudio
 from pynput.mouse import Controller, Button
 import os
+from pprint import pprint
 
 
-def recognize_speech():
-    recognizer = sr.Recognizer()
+class SpeechRecognition:
 
-    with sr.Microphone() as source:
-        print("Listening...")
-        recognizer.adjust_for_ambient_noise(source, duration=1)
-        audio = recognizer.listen(source)
-
-        try:
-            text = recognizer.recognize_google(audio).lower()
-            return text
-        except sr.UnknownValueError:
-            print("Sorry could not understand audio.")
-            return None
-        except sr.RequestError as e:
-            print(f"Could not request results from Google Speech Recognition service; {e}")
-            return None
+    def __init__(self):
+        self.recognizer = sr.Recognizer()
 
 
-if __name__ == "__main__":
-    while True:
-        recognized_text = recognize_speech()
-        if recognized_text:
-            print("Recognized Text:", recognized_text)
-        screen_width,  screen_height = pyautogui.size()
-        middle_x = screen_width // 2
-        middle_y = screen_height // 2
+    def recognize_speech(self):
+        with sr.Microphone() as source:
+            while True:
+                print("Listening...")
+                self.recognizer.adjust_for_ambient_noise(source, duration=1)
+                audio = self.recognizer.listen(source)
 
-        mouse = Controller() #Mouse Controller
-        mouse.position = (middle_x, middle_y)
-        if recognized_text == "hello":
-            print("performing right click")
-            mouse.click(Button.right)
-        if recognized_text == "chrome":
+                try:
+                    text = self.recognizer.recognize_google(audio).lower()
+                    print(f"You said: {text}")
+                    self.identifying_command(text)
+                except sr.UnknownValueError:
+                    print("Sorry could not understand audio.")
+                    return None
+                except sr.RequestError as e:
+                    print(f"Could not request results from Google Speech Recognition service; {e}")
+                    return None
+
+
+    def identifying_command(self, text):
+        if text == "chrome":
             print("Opening Google Chrome")
             os.system("start chrome")
-        if recognized_text == "explorer":
+        elif text == "explorer":
             print("Opening explorer")
             os.system("Explorer ")
-        if recognized_text == "notepad":
+        elif text == "notepad":
             print("Opening Notepad")
             os.system("notepad")
-        if recognized_text == "calculator":
+        elif text == "calculator":
             print("Opening calculator")
             os.system(" calc ")
-        if recognized_text == "powerpoint":
+        elif text == "powerpoint":
             print("Opening PowerPoint")
             os.system("start powerpnt")
-        if recognized_text == "excel":
+        elif text == "excel":
             print("Opening Excel")
             os.system("start excel")
-        if recognized_text == "word":
+        elif text == "word":
             print("Opening Microsoft Word")
             os.system("start winword")
-        if recognized_text == "code":
+        elif text == "code":
             print("Opening Visual Studio Code")
             os.system("code")
-        if recognized_text == "microsoft edge":
+        elif text == "microsoft edge":
             print("Opening Microsoft Edge")
             os.system("start msedge")
-        if recognized_text == "command prompt":
+        elif text == "command prompt":
             print("Opening command prompt")
             os.system("cmd")
-        if recognized_text == "exit":
-            print("Goodbye")
+        elif text == "exit":
+            print("Exiting the program, goodbye!")
             exit(0)
+        else:
+            print("Command does not exist")
+
