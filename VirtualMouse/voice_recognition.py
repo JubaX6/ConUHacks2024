@@ -8,8 +8,10 @@ def voice_recognition(exit_event):
     while not exit_event.is_set():
         with sr.Microphone() as source:
             try:
-                audio = recognizer.listen(source, timeout=5)
+                audio = recognizer.listen(
+                    source, timeout=5, phrase_time_limit=2)
                 command = recognizer.recognize_google(audio).lower()
+                print(f"{command}")
 
                 if "click" in command:
                     pyautogui.click()
