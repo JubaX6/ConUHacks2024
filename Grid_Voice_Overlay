@@ -2,6 +2,8 @@ import tkinter as tk
 import pyautogui
 import speech_recognition as sr
 import threading
+import subprocess
+import sys
 
 # Initialize Tkinter
 root = tk.Tk()
@@ -62,18 +64,21 @@ root.bind("<Button-1>", click_grid_cell)
 
 
 # Function to handle the window close event
-def on_closing(event=None):
-    global running
-    if event and event.keysym == 'Escape':
-        running = False
-        root.quit()  # Exit the Tkinter main loop
-    elif not event:
-        running = False
-        root.quit()  # Exit the Tkinter main loop
+def on_closing():
+    global running, voice_thread
+    running = False
+
+    # Signal the voice_thread to exit gracefully
+    if threading.current_thread() != voice_thread:
+        voice_thread.join(timeout=1)
+
+    # Cleanup or finalize tasks before exiting
+    print("Exiting Tkinter main loop")
+    root.destroy()
 
 
-# Bind the Escape key to the on_closing function
-root.bind("<Escape>", on_closing)
+# Bind the window close event to the on_closing function
+root.protocol("WM_DELETE_WINDOW", on_closing)
 
 # Set the window to be always on top
 root.attributes("-topmost", True)
@@ -99,7 +104,7 @@ def perform_right_click():
 
 # Function to minimize the window
 def hide_window():
-    root.iconify()  # Iconify (minimize) the window
+    root.withdraw()  # Withdraw (hide) the window
 
 
 # Function to show the window
