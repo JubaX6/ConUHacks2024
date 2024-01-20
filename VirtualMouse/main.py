@@ -1,9 +1,7 @@
 import cv2
 import mediapipe as mp
 import pyautogui
-import math
 import speech_recognition as sr
-from speech_recognition import Recognizer
 
 cap = cv2.VideoCapture(0)
 hand_detector = mp.solutions.hands.Hands()
@@ -12,18 +10,9 @@ drawing_utils = mp.solutions.drawing_utils
 # Screen resolution (adjust accordingly)
 screen_width, screen_height = pyautogui.size()
 
-# Threshold for triggering a click (adjust accordingly)
-click_threshold = 30
-
-# Snap distance for snapping onto clickable regions
-snap_distance = 50
-
-# List of clickable regions (x, y, width, height)
-clickable_regions = [(100, 100, 50, 50),
-                     (300, 200, 50, 50), (500, 300, 50, 50)]
 
 # Initialize the speech recognition recognizer
-recognizer = Recognizer()
+recognizer = sr.Recognizer()
 
 while True:
     _, frame = cap.read()
@@ -48,10 +37,6 @@ while True:
             # Invert the mouse coordinates
             inverted_mouse_x = screen_width - cx_index
             # inverted_mouse_y = cy_index
-
-            # Calculate the distance between thumb and index finger
-            distance = math.sqrt((cx_thumb - cx_index) **
-                                 2 + (cy_thumb - cy_index)**2)
 
             # Move the mouse cursor based on the inverted coordinates
             pyautogui.moveTo(inverted_mouse_x, cy_index)  # inverted_mouse_y)
@@ -92,4 +77,4 @@ while True:
 
     frame = cv2.flip(frame, 1)
     cv2.imshow('Virtual Mouse', frame)
-    cv2.waitKey(3)
+    cv2.waitKey(1)
