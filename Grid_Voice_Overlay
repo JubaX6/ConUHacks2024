@@ -1,7 +1,9 @@
 import tkinter as tk
 import pyautogui
-import sys
 import speech_recognition as sr
+import threading
+import subprocess
+import sys
 
 # Initialize Tkinter
 root = tk.Tk()
@@ -62,14 +64,21 @@ root.bind("<Button-1>", click_grid_cell)
 
 
 # Function to handle the window close event
-def on_closing(event):
-    global running
-    if event.keysym == 'Escape':
-        running = False
+def on_closing():
+    global running, voice_thread
+    running = False
+
+    # Signal the voice_thread to exit gracefully
+    if threading.current_thread() != voice_thread:
+        voice_thread.join(timeout=1)
+
+    # Cleanup or finalize tasks before exiting
+    print("Exiting Tkinter main loop")
+    root.destroy()
 
 
-# Bind the Escape key to the on_closing function
-root.bind("<Escape>", on_closing)
+# Bind the window close event to the on_closing function
+root.protocol("WM_DELETE_WINDOW", on_closing)
 
 # Set the window to be always on top
 root.attributes("-topmost", True)
@@ -86,6 +95,21 @@ def move_mouse_to_cell(grid_row, grid_column):
 
     # Move the mouse to the cell
     pyautogui.moveTo(cell_center_x, cell_center_y, duration=0.25)
+
+
+# Function to perform right click using PyAutoGUI (scheduled in the main thread)
+def perform_right_click():
+    pyautogui.click(button='right')
+
+
+# Function to minimize the window
+def hide_window():
+    root.withdraw()  # Withdraw (hide) the window
+
+
+# Function to show the window
+def show_window():
+    root.deiconify()  # Deiconify (show) the window
 
 
 # Function to continuously listen for voice commands
@@ -114,29 +138,27 @@ def listen_for_commands():
                     pyautogui.click()
 
                 if "rightclick" in normalized_command:
-                    pyautogui.click(button='right')
+                    # Execute right click in the main thread
+                    root.after(0, perform_right_click)
+
+                if "hide" in normalized_command:
+                    root.after(0, hide_window)  # Schedule the hide_window function in the main thread
+
+                if "show" in normalized_command:
+                    root.after(0, show_window)  # Schedule the show_window function in the main thread
+
+                if "exit" in normalized_command:
+                    on_closing()
 
             except sr.UnknownValueError:
                 print("Speech not detected")
-            except sr.WaitTimeoutError:
-                pass  # Ignore timeout errors
             except sr.RequestError as e:
                 print(f"Error connecting to Google API: {e}")
 
-# Start listening for voice commands in a separate thread
-import threading
 
+# Start listening for voice commands in a separate thread
 voice_thread = threading.Thread(target=listen_for_commands)
 voice_thread.start()
 
 # Start Tkinter main loop
-while running:
-    try:
-        root.update_idletasks()
-        root.update()
-    except tk.TclError as e:
-        if "application has been destroyed" not in str(e):
-            raise
-
-# Join the voice thread to ensure it stops when the main program ends
-voice_thread.join()
+root.mainloop()
