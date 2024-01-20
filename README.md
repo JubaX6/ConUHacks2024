@@ -16,4 +16,20 @@ This project empowers users with diverse needs to interact with computers more e
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
-- [License](#license)
+- [Acknowledgments](#acknowledgments)
+
+## Acknowledgments
+
+This project wouldn't have been possible without the incredible work of the following open-source libraries:
+
+- [OpenCV-Python](https://github.com/opencv/opencv-python): A versatile computer vision library that played a key role in implementing hand-tracking for our virtual mouse.
+
+- [MediaPipe](https://github.com/google/mediapipe): We utilized MediaPipe for its efficient and accurate hand-tracking capabilities, enhancing the precision of our virtual mouse control.
+
+- [PyAutoGUI](https://github.com/asweigart/pyautogui): PyAutoGUI facilitated the automation of on-screen mouse movements and clicks, contributing to the overall functionality of our accessibility assistant.
+
+- [SpeechRecognition](https://github.com/Uberi/speech_recognition): This library enabled seamless integration of voice commands, allowing users to interact with the virtual mouse using spoken instructions.
+
+- [PyAudio](https://github.com/intxcc/pyaudio): PyAudio played a crucial role in capturing and processing audio input, making voice command recognition possible in our project.
+
+- [pynput](https://github.com/moses-palmer/pynput): Pynput provided essential tools for controlling and monitoring input devices, enhancing the overall user experience of our virtual accessibility assistant.
