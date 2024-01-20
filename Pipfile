@@ -7,6 +7,9 @@ name = "pypi"
 opencv-python = "*"
 mediapipe = "*"
 pyautogui = "*"
+speechrecognition = "*"
+pyaudio = "*"
+pynput = "*"
 
 [dev-packages]
 
