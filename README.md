@@ -11,3 +11,9 @@ The #### is a project aimed at enhancing accessibility by introducing a virtual 
 - pynput
 
 This project empowers users with diverse needs to interact with computers more effectively, making digital environments more inclusive and user-friendly.
+
+## Table of Contents
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
