@@ -1,4 +1,5 @@
 import os
+import webbrowser
 
 import pyautogui
 import speech_recognition as sr
@@ -196,15 +197,15 @@ def listen_for_commands():
                 if "command prompt" in normalized_command:
                     print("Opening command prompt")
                     os.system("cmd")
-                if "pointer" in normalized_command:
-                    try:
-                        subprocess.run(["python", "virtual_mouse.py"], check=True)
-                        print("Successfully started virtual_mouse.py")
-                    except subprocess.CalledProcessError as e:
-                        print(f"Error running virtual_mouse.py: {e}")
-                    except Exception as e:
-                        print(f"An unexpected error occurred: {e}")
-
+                if "youtube" in normalized_command:
+                    print("Opening Youtube")
+                    webbrowser.open("https://www.youtube.com")
+                if "linkedin" in normalized_command:
+                    print("Opening Linkedin")
+                    webbrowser.open("https://www.linkedin.com/feed/")
+                if "googlemaps" in normalized_command:
+                    print("Opening Google Maps")
+                    webbrowser.open("https://www.google.ca/maps/@45.4874546,-73.5745793,14z?entry=ttu")
                 if "exit" in normalized_command:
                     print("Exiting the program, goodbye!")
                     on_closing()
