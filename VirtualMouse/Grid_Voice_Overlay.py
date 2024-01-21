@@ -1,9 +1,15 @@
+import os
+
 import pyautogui
 import speech_recognition as sr
 import threading
 import subprocess
 import sys
 import tkinter as tk
+import cv2
+import os
+
+
 
 # Initialize Tkinter
 root = tk.Tk()
@@ -74,8 +80,7 @@ def on_closing():
 
     # Cleanup or finalize tasks before exiting
     print("Exiting Tkinter main loop")
-    root.destroy()
-
+    root.quit()
 
 # Bind the window close event to the on_closing function
 root.protocol("WM_DELETE_WINDOW", on_closing)
@@ -146,8 +151,39 @@ def listen_for_commands():
 
                 if "show" in normalized_command:
                     root.after(0, show_window)  # Schedule the show_window function in the main thread
+                if "chrome" in normalized_command:
+                    print("Opening Google Chrome")
+                    os.system("start chrome")
+                if "explorer" in normalized_command:
+                    print("Opening explorer")
+                    os.system("Explorer ")
+                if "notepad" in normalized_command:
+                    print("Opening Notepad")
+                    os.system("notepad")
+                if "calculator" in normalized_command:
+                    print("Opening calculator")
+                    os.system(" calc ")
+                if "powerpoint" in normalized_command:
+                    print("Opening PowerPoint")
+                    os.system("start powerpnt")
+                if "excel" in normalized_command:
+                    print("Opening Excel")
+                    os.system("start excel")
+                if "word" in normalized_command:
+                    print("Opening Microsoft Word")
+                    os.system("start winword")
+                if "code" in normalized_command:
+                    print("Opening Visual Studio Code")
+                    os.system("code")
+                if "microsoft edge" in normalized_command:
+                    print("Opening Microsoft Edge")
+                    os.system("start msedge")
+                if "command prompt" in normalized_command:
+                    print("Opening command prompt")
+                    os.system("cmd")
 
                 if "exit" in normalized_command:
+                    print("Exiting the program, goodbye!")
                     on_closing()
 
             except sr.UnknownValueError:
