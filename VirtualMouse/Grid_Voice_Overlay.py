@@ -4,7 +4,6 @@ import threading
 import subprocess
 import sys
 import tkinter as tk
-import virtual_mouse as vm
 
 # Initialize Tkinter
 root = tk.Tk()
@@ -115,8 +114,6 @@ def show_window():
 
 # Function to continuously listen for voice commands
 def listen_for_commands():
-    mouse_active = False
-    exit_event = threading.Event()
     while running:
         with sr.Microphone() as source:
             try:
@@ -152,14 +149,6 @@ def listen_for_commands():
 
                 if "exit" in normalized_command:
                     on_closing()
-
-                if "pointer on" in normalized_command:
-                    mouse_active = True
-                    vm.main(exit_event)
-
-                if "pointer off" in normalized_command:
-                    mouse_active = False
-                    vm.Pointer_Off(exit_event)
 
             except sr.UnknownValueError:
                 print("Speech not detected")
