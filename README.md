@@ -1,6 +1,6 @@
 # ConUHacks2024
 
-The #### is a project aimed at enhancing accessibility by introducing a virtual mouse that is controlled by a webcam or a voice command functionality for actions and screen navigation using a grid-based system. Leveraging the power of computer vision, the project utilizes OpenCV and MediaPipe for hand-tracking, enabling users to control the virtual mouse through hand gestures. Additionally, voice commands are supported through the integration of SpeechRecognition and PyAudio.
+The NoKeyMouseis a project aimed at enhancing accessibility by introducing a virtual mouse that is controlled by a webcam or a voice command functionality for actions and screen navigation using a grid-based system. Leveraging the power of computer vision, the project utilizes OpenCV and MediaPipe for hand-tracking, enabling users to control the virtual mouse through hand gestures. Additionally, voice commands are supported through the integration of SpeechRecognition and PyAudio.
 
 ## Key Dependencies
 - opencv-python
@@ -33,3 +33,18 @@ This project wouldn't have been possible without the incredible work of the foll
 - [PyAudio](https://github.com/intxcc/pyaudio): PyAudio played a crucial role in capturing and processing audio input, making voice command recognition possible in our project.
 
 - [pynput](https://github.com/moses-palmer/pynput): Pynput provided essential tools for controlling and monitoring input devices, enhancing the overall user experience of our virtual accessibility assistant.
+
+## Commands
+
+The script continuously listens for voice commands using the SpeechRecognition library.
+
+The commands include:
+- grid cell coordinates 
+- left click 
+- right click 
+- hide/show: hiding or showing the grid 
+- application launching: "Chrome", "explorer", and ext. 
+- starting the virtual mouse
+- and exiting the program
+
+The grid coordinates allow the user to navigate the screen with voice. Coordinated with the letters of the alphabet and integers, the user calls the square to navigate the mouse to and apply the appropriate commands. 
