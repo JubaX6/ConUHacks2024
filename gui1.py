@@ -2,10 +2,10 @@ import customtkinter
 import tkinterDnD
 from PIL import Image 
     
-IMAGE_PATH = r"C:\Users\atais\OneDrive\Desktop\download.jpg"
-IMAGE_PATH2 = r"C:\Users\atais\OneDrive\Desktop\images.jpg"
-IMAGE_PATH3 = r"C:\Users\atais\OneDrive\Desktop\Gesture-Recognition-and-Its-Application-in-Machine-Learning.jpg"
-IMAGE_PATH4 = r"C:\Users\atais\OneDrive\Desktop\images.png"
+IMAGE_PATH = r"download.jpg"
+IMAGE_PATH2 = r"images.jpg"
+IMAGE_PATH3 = r"image.jpg"
+IMAGE_PATH4 = r"images.png"
 
 customtkinter.set_ctk_parent_class(tkinterDnD.Tk)
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
