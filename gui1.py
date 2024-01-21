@@ -1,8 +1,5 @@
 import customtkinter
 import tkinterDnD
-from gtts import gTTS
-import os 
-import pygame
 from PIL import Image 
     
 IMAGE_PATH = r"C:\Users\atais\OneDrive\Desktop\download.jpg"
