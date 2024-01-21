@@ -8,8 +8,8 @@ import sys
 import tkinter as tk
 import cv2
 import os
-
-
+import virtual_mouse
+import psutil
 
 # Initialize Tkinter
 root = tk.Tk()
@@ -80,7 +80,8 @@ def on_closing():
 
     # Cleanup or finalize tasks before exiting
     print("Exiting Tkinter main loop")
-    root.quit()
+    root.quit()  # This will break out of the mainloop
+
 
 # Bind the window close event to the on_closing function
 root.protocol("WM_DELETE_WINDOW", on_closing)
@@ -110,6 +111,20 @@ def perform_right_click():
 # Function to minimize the window
 def hide_window():
     root.withdraw()  # Withdraw (hide) the window
+
+
+def terminate_process_by_name(process_name):
+    for proc in psutil.process_iter(['pid', 'name']):
+        if proc.info['name'] == process_name:
+            pid = proc.info['pid']
+            try:
+                process = psutil.Process(pid)
+                process.terminate()
+                print(f"Successfully terminated {process_name} (PID: {pid})")
+            except psutil.NoSuchProcess as e:
+                print(f"Error terminating {process_name}: {e}")
+            except Exception as e:
+                print(f"An unexpected error occurred: {e}")
 
 
 # Function to show the window
@@ -181,6 +196,14 @@ def listen_for_commands():
                 if "command prompt" in normalized_command:
                     print("Opening command prompt")
                     os.system("cmd")
+                if "pointer" in normalized_command:
+                    try:
+                        subprocess.run(["python", "virtual_mouse.py"], check=True)
+                        print("Successfully started virtual_mouse.py")
+                    except subprocess.CalledProcessError as e:
+                        print(f"Error running virtual_mouse.py: {e}")
+                    except Exception as e:
+                        print(f"An unexpected error occurred: {e}")
 
                 if "exit" in normalized_command:
                     print("Exiting the program, goodbye!")
@@ -198,4 +221,3 @@ voice_thread.start()
 
 # Start Tkinter main loop
 root.mainloop()
-

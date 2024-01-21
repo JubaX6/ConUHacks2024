@@ -3,8 +3,7 @@ import mediapipe as mp
 import pyautogui
 from queue import Queue
 
-
-def hand_tracking(cap, screen_width, frame_queue, exit_event):
+def hand_tracking(cap, screen_width, screen_height, frame_queue, exit_event):
     hand_detector = mp.solutions.hands.Hands()
     is_index_finger_tracked = False
 
@@ -20,9 +19,9 @@ def hand_tracking(cap, screen_width, frame_queue, exit_event):
                 if not is_index_finger_tracked:
                     index_finger_landmark = hand.landmark[8]
 
-                    height, width, _ = frame.shape
-                    cx_index, cy_index = int(
-                        index_finger_landmark.x * width), int(index_finger_landmark.y * height)
+                    # Scale the coordinates to match the screen resolution
+                    cx_index = int(index_finger_landmark.x * screen_width)
+                    cy_index = int(index_finger_landmark.y * screen_height)
 
                     # Invert the mouse coordinates
                     inverted_mouse_x = screen_width - cx_index
