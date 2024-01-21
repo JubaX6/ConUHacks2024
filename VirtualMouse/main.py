@@ -1,44 +1,28 @@
-import cv2
-import threading
-import hand_tracking
-import voice_recognition
-import display_frame
-import pyautogui
-from queue import Queue
+import subprocess
+
+
+def run_another_file(file_path):
+    try:
+        subprocess.run(["python", file_path], check=True)
+        print(f"Successfully ran {file_path}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error running {file_path}: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
 
 def main():
-    # Shared variables
-    screen_width, screen_height = pyautogui.size()
+    user_choice = int(input("Enter 1 to run the gesture detection, or enter 2 for the speech recognition:"))
 
-    # Shared variables for hand tracking
-    cap = cv2.VideoCapture(0)
-    frame_queue = Queue()
-    exit_event = threading.Event()
+    if user_choice != 1 and user_choice != 2:
+        print("Error: Please enter 1 or 2.")
+        return
 
-    # Create and start threads
-    hand_thread = threading.Thread(
-        target=hand_tracking.hand_tracking, args=(cap, screen_width, frame_queue, exit_event))
-    voice_thread = threading.Thread(target=voice_recognition.voice_recognition, args=(exit_event,))
+    if user_choice == 1:
+        run_another_file("virtual_mouse.py")
+    if user_choice == 2:
+        run_another_file("Grid_Voice_Overlay.py")
 
-    # Start threads
-    hand_thread.start()
-    voice_thread.start()
-
-    while not exit_event.is_set():
-        if not frame_queue.empty():
-            frame = frame_queue.get()
-
-            # Display the frame in the main thread
-            cv2.imshow('Virtual Mouse', frame)
-            cv2.waitKey(1)
-
-    # Release camera resource
-    cap.release()
-
-    # Wait for threads to finish before exiting
-    hand_thread.join()
-    voice_thread.join()
-    cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     main()

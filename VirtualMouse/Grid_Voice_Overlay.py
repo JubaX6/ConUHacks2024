@@ -1,9 +1,9 @@
-import tkinter as tk
 import pyautogui
 import speech_recognition as sr
 import threading
 import subprocess
 import sys
+import tkinter as tk
 
 # Initialize Tkinter
 root = tk.Tk()
@@ -118,7 +118,7 @@ def listen_for_commands():
         with sr.Microphone() as source:
             try:
                 print("Listening for commands...")
-                audio = recognizer.listen(source, timeout=5)
+                audio = recognizer.listen(source, timeout=5, phrase_time_limit=2)
                 command = recognizer.recognize_google(audio).lower()
                 normalized_command = command.replace(" ", "")  # Remove spaces in the command
 
@@ -162,3 +162,4 @@ voice_thread.start()
 
 # Start Tkinter main loop
 root.mainloop()
+
